@@ -419,6 +419,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 grid: { display: false }
             },
             y: {
+                beginAtZero: true,
                 ticks: { 
                     color: '#495057', 
                     font: { size: 12 },
@@ -540,20 +541,29 @@ document.addEventListener('DOMContentLoaded', () => {
             datasets: [
                 {
                     label: '매출',
-                    data: [100, 180, 320, 500, 750],
+                    data: [50, 90, 160, 250, 400],
                     backgroundColor: '#0A2540',
                     borderRadius: 4,
                 },
                 {
                     label: 'EBITDA',
-                    data: [15, 31, 61, 100, 165],
+                    data: [7, 15, 28, 45, 70],
                     backgroundColor: '#00A4E6',
                     borderRadius: 4,
                 }
             ]
         },
-        options: { ...defaultChartOptions,
-            plugins: { ...defaultChartOptions.plugins, 
+        options: { 
+            ...defaultChartOptions,
+            scales: {
+                ...defaultChartOptions.scales,
+                y: {
+                    ...defaultChartOptions.scales.y,
+                    max: 450
+                }
+            },
+            plugins: { 
+                ...defaultChartOptions.plugins, 
                 legend: {
                     display: true,
                     position: 'bottom',
