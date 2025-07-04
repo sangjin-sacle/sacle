@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html lang="ko" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>인터랙티브 리포트: 글로벌 방역 시장 롤업 M&A 성공 전략</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;900&display=swap" rel="stylesheet">
+    <!-- Chosen Palette: Deep Dive (Dark Blue, Cool Gray, Teal Accent) -->
+    <!-- Application Structure Plan: The SPA is an interactive deep-dive report designed for strategic analysis. It starts with a hero section stating the report's purpose. The core feature is a multi-case comparative framework. Users select strategic facets ('전략 모델', 'M&A 접근법', '가치 창출') via interactive tabs to directly compare the four key models (Rentokil, Rollins, TSCP/PestCo, CEP/Aruza) side-by-side. This is more effective than a linear report for highlighting strategic nuances. It's followed by an interactive "Multiple Arbitrage Calculator" to make the core financial concept tangible. The report concludes with a synthesis of key success factors and critical risks, providing actionable takeaways. This structure guides the user from high-level comparison to hands-on financial understanding and finally to strategic insights. -->
+    <!-- Visualization & Content Choices: 
+        - Comparative Framework: Goal: Compare. Viz: Four-column layout with interactive tabs (HTML/JS). Justification: Allows users to focus on comparing one strategic aspect at a time across all four major players, which is far more effective for learning than scrolling through separate case studies.
+        - Strategic Flow Diagram: Goal: Organize. Viz: Styled HTML/CSS diagrams. Justification: Visually represents the different models (e.g., 'Architect' vs 'Catalyst'), making the abstract concepts instantly understandable. No SVG/Mermaid used.
+        - Multiple Arbitrage Calculator: Goal: Engage/Inform. Viz: Interactive sliders and real-time output (HTML/JS). Justification: This is the "wow" factor. It demystifies the core financial engine of a roll-up, allowing users to feel the power of multiple expansion by manipulating the inputs themselves.
+        - Key Data Points (e.g., $6.7B acquisition): Goal: Inform. Viz: Highlighted large text. Justification: Draws immediate attention to the scale and financial significance of these strategies.
+        - Key Factors/Risks: Goal: Inform. Viz: Styled lists with icons. Justification: Presents crucial summary information in a highly scannable and digestible format.
+    -->
+    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+    <style>
+        body {
+            font-family: 'Noto Sans KR', sans-serif;
+            background-color: #F0F2F5;
+            color: #1a202c;
+        }
+        .hero-gradient {
+            background: linear-gradient(135deg, #0f172a 0%, #1e3a8a 100%);
+        }
+        .tab-button {
+            transition: all 0.3s ease;
+            border-bottom: 3px solid transparent;
+            padding: 0.75rem 1rem;
+            white-space: nowrap;
+        }
+        .tab-button.active {
+            color: #0d9488;
+            border-bottom-color: #0d9488;
+            font-weight: 700;
+        }
+        .case-card {
+            background-color: white;
+            border-radius: 0.75rem;
+            box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+        }
+        .content-panel {
+            display: none;
+            flex-grow: 1;
+        }
+        .content-panel.active {
+            display: flex;
+            flex-direction: column;
+        }
+        .slider-thumb::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 20px;
+            height: 20px;
+            background: #0d9488;
+            cursor: pointer;
+            border-radius: 50%;
+        }
+        .slider-thumb::-moz-range-thumb {
+            width: 20px;
+            height: 20px;
+            background: #0d9488;
+            cursor: pointer;
+            border-radius: 50%;
+        }
+    </style>
+</head>
+<body class="antialiased">
+
+    <!-- Hero Section -->
+    <header class="hero-gradient text-white">
+        <div class="container mx-auto px-6 py-20 text-center">
+            <h1 class="text-4xl md:text-5xl font-black tracking-tight mb-4">인터랙티브 리포트: 글로벌 방역 시장 롤업 M&A 성공 전략</h1>
+            <p class="text-lg md:text-xl font-light max-w-3xl mx-auto">
+                산업의 거인부터 PE 플레이어까지, 시장을 재편한 4대 성공 모델을 비교 분석하고 그 핵심 원리를 직접 체험해 보세요.
+            </p>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="container mx-auto p-4 md:p-8">
+
+        <!-- Section 1: Four Paths to Dominance -->
+        <section id="comparison" class="mb-20">
+            <h2 class="text-3xl md:text-4xl font-extrabold text-center mb-4 text-gray-800">4가지 성공 방정식: 시장 지배를 위한 플레이북</h2>
+            <p class="text-center text-gray-600 max-w-3xl mx-auto mb-10">
+                전통적 강자의 장기적 성장 전략부터 현대적 PE의 단기 가치 창출 전략까지. 아래 탭을 클릭하여 4대 플레이어의 핵심적인 차이를 직접 비교해 보세요.
+            </p>
+
+            <!-- Tab Navigation -->
+            <div class="flex justify-center border-b border-gray-200 mb-8 overflow-x-auto">
+                <div class="flex">
+                    <button class="tab-button active" data-tab="model">전략 모델</button>
+                    <button class="tab-button" data-tab="approach">M&A 접근법</button>
+                    <button class="tab-button" data-tab="value">가치 창출 방식</button>
+                </div>
+            </div>
+
+            <!-- Content Panels Grid -->
+            <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-6">
+                <!-- Case 1: Rentokil -->
+                <div class="case-card">
+                    <div class="p-6 border-b-4 border-red-600">
+                        <h3 class="text-xl font-bold text-slate-800">Rentokil Initial</h3>
+                        <p class="text-red-700 font-semibold">공격적 통합자</p>
+                    </div>
+                    <div class="p-6 flex-grow">
+                        <div id="model-rentokil" class="content-panel active">
+                            <h4 class="font-bold text-gray-700 mb-2">M&A as a Process</h4>
+                            <p class="text-gray-600 text-sm">M&A를 특별한 이벤트가 아닌, 성장을 위한 '일상적인 비즈니스 프로세스'로 규정. 세계 1위 유지를 위한 지속적인 시장 통합.</p>
+                        </div>
+                        <div id="approach-rentokil" class="content-panel">
+                            <h4 class="font-bold text-gray-700 mb-2">소규모 인수 + 랜드마크 딜</h4>
+                            <p class="text-gray-600 text-sm">매년 수십 개의 소규모 업체를 인수하여 서비스 밀도를 높이고, 2022년 Terminix를 **67억 달러**에 인수하는 등 시장 판도를 바꾸는 빅딜을 감행.</p>
+                        </div>
+                        <div id="value-rentokil" class="content-panel">
+                            <h4 class="font-bold text-gray-700 mb-2">글로벌 통합 플랫폼</h4>
+                            <p class="text-gray-600 text-sm">전 세계 어디서든 피인수 기업을 즉시 통합할 수 있는 표준화된 IT, 재무, 운영 시스템을 통해 압도적인 '규모의 경제'를 실현.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Case 2: Rollins -->
+                <div class="case-card">
+                    <div class="p-6 border-b-4 border-blue-600">
+                       <h3 class="text-xl font-bold text-slate-800">Rollins, Inc.</h3>
+                       <p class="text-blue-700 font-semibold">브랜드 중심 통합자</p>
+                    </div>
+                     <div class="p-6 flex-grow">
+                        <div id="model-rollins" class="content-panel active">
+                            <h4 class="font-bold text-gray-700 mb-2">Legacy Respect</h4>
+                            <p class="text-gray-600 text-sm">피인수 기업의 유산과 고객 관계를 존중하는 '인간적인 접근'을 통해 점진적으로 시장 점유율을 확대.</p>
+                        </div>
+                        <div id="approach-rollins" class="content-panel">
+                             <h4 class="font-bold text-gray-700 mb-2">창업자 친화적 인수</h4>
+                            <p class="text-gray-600 text-sm">은퇴를 고려하는 가족 기업을 주요 타겟으로 삼아 부드러운 인수를 진행. 2023년 Fox Pest Control을 **3억 2백만 달러**에 인수.</p>
+                        </div>
+                         <div id="value-rollins" class="content-panel">
+                            <h4 class="font-bold text-gray-700 mb-2">강력한 브랜드 파워</h4>
+                             <p class="text-gray-600 text-sm">'Orkin'이라는 압도적인 브랜드를 활용하여 마케팅 효율성을 극대화하고, 피인수 기업에게 매력적인 가치를 제공.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Case 3: TSCP/PestCo -->
+                <div class="case-card">
+                     <div class="p-6 border-b-4 border-gray-700">
+                        <h3 class="text-xl font-bold text-slate-800">TSCP & PestCo</h3>
+                        <p class="text-gray-800 font-semibold">"Buy-and-Build" 건축가</p>
+                    </div>
+                    <div class="p-6 flex-grow">
+                        <div id="model-tscp" class="content-panel active">
+                            <h4 class="font-bold text-gray-700 mb-2">Platform First</h4>
+                            <p class="text-gray-600 text-sm">PE가 명확한 목표를 가지고 업계 전문가와 함께 M&A에 최적화된 플랫폼 회사를 '설계'하고 '구축'하는 전략.</p>
+                        </div>
+                        <div id="approach-tscp" class="content-panel">
+                            <h4 class="font-bold text-gray-700 mb-2">속도와 규모의 M&A</h4>
+                            <p class="text-gray-600 text-sm">설립 직후 M&A 엔진을 가동, 지리적 거점 확보 후 밀도를 높이는 '클러스터' 방식으로 신속하게 시장 점유율 확보.</p>
+                        </div>
+                        <div id="value-tscp" class="content-panel">
+                            <h4 class="font-bold text-gray-700 mb-2">멀티플 차익거래 극대화</h4>
+                            <p class="text-gray-600 text-sm">개별 회사를 **EBITDA 4~6배**에 인수, 플랫폼화하여 전체 가치를 **10배 이상**으로 끌어올리는 재무적 가치 창출에 집중.</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Case 4: CEP/Aruza -->
+                <div class="case-card">
+                     <div class="p-6 border-b-4 border-teal-600">
+                        <h3 class="text-xl font-bold text-slate-800">CEP & Aruza</h3>
+                        <p class="text-teal-700 font-semibold">"Growth Acceleration" 촉매</p>
+                    </div>
+                     <div class="p-6 flex-grow">
+                        <div id="model-aruza" class="content-panel active">
+                            <h4 class="font-bold text-gray-700 mb-2">Champion Backing</h4>
+                            <p class="text-gray-600 text-sm">이미 고속 성장을 증명한 '챔피언' 회사를 발굴하여, 자본과 M&A 전문성이라는 '촉매'를 투입해 성장을 가속화.</p>
+                        </div>
+                         <div id="approach-aruza" class="content-panel">
+                            <h4 class="font-bold text-gray-700 mb-2">정밀 타격 Add-on 인수</h4>
+                            <p class="text-gray-600 text-sm">'문화적 적합성'을 최우선으로, 핵심 시장 밀도 강화 또는 신규 시장 진출 등 명확한 목적성을 띤 정밀 인수를 실행.</p>
+                        </div>
+                         <div id="value-aruza" class="content-panel">
+                            <h4 class="font-bold text-gray-700 mb-2">매출 시너지 창출</h4>
+                            <p class="text-gray-600 text-sm">플랫폼 기업의 검증된 우월한 영업/마케팅 모델을 피인수 기업에 이식하여, 비용 절감을 넘어 전체 매출을 증대시키는 데 집중.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 2: Interactive Calculator -->
+        <section id="calculator" class="bg-slate-800 text-white rounded-xl shadow-lg p-6 md:p-10 mb-20">
+            <h2 class="text-3xl font-extrabold text-center mb-4">롤업 전략의 핵심 엔진: 가치 증폭 시뮬레이터</h2>
+            <p class="text-center text-gray-300 max-w-2xl mx-auto mb-10">
+                롤업 M&A의 가장 강력한 재무 논리인 '멀티플 차익거래(Multiple Arbitrage)'를 직접 경험해 보세요. 아래 슬라이더를 움직여 소규모 기업이 거대 플랫폼에 통합될 때 기업 가치가 어떻게 변하는지 확인해 보세요.
+            </p>
+            
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8 items-center">
+                <!-- Inputs -->
+                <div class="md:col-span-1 space-y-6">
+                    <div>
+                        <label for="ebitda" class="font-semibold text-gray-300">인수 대상 기업 EBITDA (연간 이익)</label>
+                        <div class="flex items-center">
+                            <input type="range" id="ebitda" min="1" max="10" value="2" class="w-full h-2 bg-gray-600 rounded-lg appearance-none cursor-pointer slider-thumb">
+                            <span id="ebitdaValue" class="ml-4 font-bold text-teal-400 text-lg w-20 text-right">2억 원</span>
+                        </div>
+                    </div>
+                    <div>
+                        <label for="acquisitionMultiple" class="font-semibold text-gray-300">인수 시 적용 배수 (Multiple)</label>
+                         <div class="flex items-center">
+                            <input type="range" id="acquisitionMultiple" min="2" max="8" value="4" step="0.5" class="w-full h-2 bg-gray-600 rounded-lg appearance-none cursor-pointer slider-thumb">
+                            <span id="acquisitionMultipleValue" class="ml-4 font-bold text-teal-400 text-lg w-20 text-right">4.0x</span>
+                        </div>
+                    </div>
+                    <div>
+                        <label for="platformMultiple" class="font-semibold text-gray-300">플랫폼의 목표 배수 (Multiple)</label>
+                         <div class="flex items-center">
+                            <input type="range" id="platformMultiple" min="8" max="15" value="10" step="0.5" class="w-full h-2 bg-gray-600 rounded-lg appearance-none cursor-pointer slider-thumb">
+                            <span id="platformMultipleValue" class="ml-4 font-bold text-teal-400 text-lg w-20 text-right">10.0x</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Outputs -->
+                <div class="md:col-span-2 bg-slate-700 rounded-lg p-8 text-center">
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                        <div>
+                            <p class="text-sm text-gray-400 mb-1">인수 시점의 기업가치</p>
+                            <p id="acquisitionValue" class="text-3xl font-bold text-gray-100">8억 원</p>
+                            <p class="text-xs text-gray-500">(EBITDA x 인수 배수)</p>
+                        </div>
+                        <div class="border-t border-slate-600 sm:border-t-0 sm:border-l sm:border-slate-600 pt-6 sm:pt-0 sm:pl-6">
+                            <p class="text-sm text-gray-400 mb-1">플랫폼 편입 후 창출된 가치</p>
+                            <p id="platformValue" class="text-4xl font-extrabold text-teal-400">20억 원</p>
+                            <p class="text-xs text-gray-500">(EBITDA x 플랫폼 목표 배수)</p>
+                        </div>
+                    </div>
+                    <div class="mt-8 pt-6 border-t border-slate-600">
+                         <p class="text-lg text-gray-200">'멀티플 차익거래'를 통해 창출된 추가 기업 가치는</p>
+                         <p id="valueCreated" class="text-5xl font-black text-white mt-2">12억 원</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 3: Key Takeaways -->
+        <section id="takeaways">
+             <h2 class="text-3xl md:text-4xl font-extrabold text-center mb-4 text-gray-800">성공과 실패를 가르는 결정적 요인</h2>
+             <p class="text-center text-gray-600 max-w-2xl mx-auto mb-10">
+                성공적인 롤업 전략은 단순히 자본을 투입하는 것을 넘어, 명확한 원칙과 규율 잡힌 실행을 요구합니다.
+            </p>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <div class="bg-white rounded-lg shadow-md p-6">
+                    <h3 class="text-xl font-bold mb-4 flex items-center text-green-600">
+                        <span class="text-2xl mr-3">✅</span> 핵심 성공 방정식
+                    </h3>
+                    <ul class="space-y-3 text-gray-700 list-inside">
+                        <li class="pl-2 border-l-2 border-green-200"><strong>안정적 산업 선택:</strong> 경기 방어적이고 반복 매출 구조를 가진 파편화된 시장을 선택하는 통찰력.</li>
+                        <li class="pl-2 border-l-2 border-green-200"><strong>강력한 통합 플랫폼:</strong> 피인수 기업을 즉시 통합할 수 있는 표준화된 IT, 재무, 운영 시스템.</li>
+                        <li class="pl-2 border-l-2 border-green-200"><strong>규율 잡힌 M&A 실행력:</strong> 딜 소싱, 실사, 통합 과정을 기계처럼 실행하는 고도로 정제된 프로세스.</li>
+                         <li class="pl-2 border-l-2 border-green-200"><strong>문화와 인재 존중:</strong> 재무적 지표만큼이나 피인수 기업의 문화적 적합성과 핵심 인재 유지를 최우선으로 고려하는 원칙.</li>
+                    </ul>
+                </div>
+                 <div class="bg-white rounded-lg shadow-md p-6">
+                    <h3 class="text-xl font-bold mb-4 flex items-center text-red-600">
+                       <span class="text-2xl mr-3">⚠️</span> 치명적 실패의 함정
+                    </h3>
+                    <ul class="space-y-3 text-gray-700 list-inside">
+                        <li class="pl-2 border-l-2 border-red-200"><strong>인수 후 통합(PMI) 실패:</strong> 가장 흔하고 치명적인 실패 요인. 시스템과 프로세스, 문화 통합의 어려움.</li>
+                        <li class="pl-2 border-l-2 border-red-200"><strong>핵심 인재 이탈:</strong> 문화 충돌로 인한 창업자 및 핵심 직원 이탈은 고객과 노하우의 유출로 직결됨.</li>
+                        <li class="pl-2 border-l-2 border-red-200"><strong>재무 규율 상실:</strong> '딜 피버(Deal Fever)'에 휩싸여 과도한 가격에 인수하거나, 부실한 실사를 진행하는 경우.</li>
+                        <li class="pl-2 border-l-2 border-red-200"><strong>'쉬운 시너지'의 신화:</strong> 예상했던 비용 절감 및 매출 증대 효과가 실현되지 않을 경우, 전체 재무 모델이 붕괴될 위험.</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <footer class="bg-slate-800 text-gray-400 mt-20">
+        <div class="container mx-auto px-6 py-8 text-center text-sm">
+            <p>&copy; 2025 Sacle Strategy Division. All Rights Reserved.</p>
+            <p class="mt-2">본 리포트는 공개된 정보를 바탕으로 분석되었으며, 투자 자문이나 추천을 구성하지 않습니다.</p>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            // Tab switching logic
+            const tabs = document.querySelectorAll('.tab-button');
+            const allPanels = document.querySelectorAll('.content-panel');
+
+            tabs.forEach(tab => {
+                tab.addEventListener('click', () => {
+                    const tabName = tab.dataset.tab;
+
+                    tabs.forEach(t => t.classList.remove('active'));
+                    tab.classList.add('active');
+
+                    allPanels.forEach(panel => {
+                        panel.classList.remove('active');
+                        if (panel.id.startsWith(tabName)) {
+                            panel.classList.add('active');
+                        }
+                    });
+                });
+            });
+
+            // Calculator logic
+            const ebitdaSlider = document.getElementById('ebitda');
+            const acquisitionMultipleSlider = document.getElementById('acquisitionMultiple');
+            const platformMultipleSlider = document.getElementById('platformMultiple');
+
+            const ebitdaValueSpan = document.getElementById('ebitdaValue');
+            const acquisitionMultipleValueSpan = document.getElementById('acquisitionMultipleValue');
+            const platformMultipleValueSpan = document.getElementById('platformMultipleValue');
+
+            const acquisitionValueP = document.getElementById('acquisitionValue');
+            const platformValueP = document.getElementById('platformValue');
+            const valueCreatedP = document.getElementById('valueCreated');
+
+            function calculate() {
+                const ebitda = parseFloat(ebitdaSlider.value);
+                const acqMult = parseFloat(acquisitionMultipleSlider.value);
+                const platMult = parseFloat(platformMultipleSlider.value);
+
+                const acqValue = ebitda * acqMult;
+                const platValue = ebitda * platMult;
+                const createdValue = platValue - acqValue;
+
+                ebitdaValueSpan.textContent = `${ebitda}억 원`;
+                acquisitionMultipleValueSpan.textContent = `${acqMult.toFixed(1)}x`;
+                platformMultipleValueSpan.textContent = `${platMult.toFixed(1)}x`;
+
+                acquisitionValueP.textContent = `${acqValue.toFixed(0)}억 원`;
+                platformValueP.textContent = `${platValue.toFixed(0)}억 원`;
+                valueCreatedP.textContent = `${createdValue.toFixed(0)}억 원`;
+            }
+
+            ebitdaSlider.addEventListener('input', calculate);
+            acquisitionMultipleSlider.addEventListener('input', calculate);
+            platformMultipleSlider.addEventListener('input', calculate);
+
+            // Initial calculation
+            calculate();
+        });
+    </script>
+
+</body>
+</html>
