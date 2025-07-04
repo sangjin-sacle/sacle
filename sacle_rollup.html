@@ -1,0 +1,602 @@
+<!DOCTYPE html>
+<html lang="ko" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sacle Interactive Pitch Deck: 대한민국 방역 산업의 게임 체인저</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;900&display=swap" rel="stylesheet">
+    <!-- Chosen Palette: Corporate Tech -->
+    <!-- Application Structure Plan: A single-page, scrollable narrative that follows the pitch deck outline. Key sections are: Hero, Market Opportunity (Problem & Opportunity), The Sacle Solution (Solution & Traction), The Roll-up Strategy (Strategy, Financial Logic, Unfair Advantage), The Vision (Roadmap), and The Ask (Funding & Team). This structure logically builds the investment case, starting with the market problem and culminating in the financial ask, which is a highly effective flow for investor presentations. Interactive charts and calculators are embedded to make key data points engaging and memorable. -->
+    <!-- Visualization & Content Choices: 
+    - Market Fragmentation: Goal: Inform. Viz: Donut Chart (Chart.js). Justification: Best way to show a small part vs. a large whole.
+    - Market Growth: Goal: Change. Viz: Bar Chart (Chart.js). Justification: Clear and simple for showing annual growth.
+    - Sacle's Organic Growth: Goal: Inform. Viz: Line Chart (Chart.js). Justification: Effectively shows a positive trend over time.
+    - Roll-up Diagram: Goal: Organize. Viz: HTML/CSS Diagram. Justification: A clean, custom diagram explains the concept better than text alone.
+    - Multiple Arbitrage Calculator: Goal: Engage. Viz: Custom JS Interactive Element. Justification: The core financial thesis is made tangible and impactful by allowing investors to see the value creation themselves.
+    - Use of Funds: Goal: Inform. Viz: Pie Chart (Chart.js). Justification: Standard and intuitive for showing budget allocation.
+    - Financial Projections: Goal: Change. Viz: Bar Chart (Chart.js). Justification: Clearly illustrates the dramatic revenue and EBITDA growth post-investment.
+    - Roadmap: Goal: Organize. Viz: HTML/CSS timeline. Justification: Visually represents the strategic phases over time.
+    -->
+    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+    <style>
+        body {
+            font-family: 'Noto Sans KR', sans-serif;
+            background-color: #F8F9FA;
+            color: #212529;
+        }
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 500px;
+            margin-left: auto;
+            margin-right: auto;
+            height: 300px;
+            max-height: 350px;
+        }
+        @media (min-width: 768px) {
+            .chart-container {
+                height: 350px;
+                max-height: 400px;
+            }
+        }
+        .hero {
+            background: linear-gradient(45deg, #0A2540, #3D99A7);
+        }
+        .stat-card {
+            background: white;
+            border-radius: 0.75rem;
+            padding: 1.5rem;
+            box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+            border-top: 4px solid #00A4E6;
+            height: 100%;
+        }
+        .kpi-card {
+             background: #0A2540;
+             color: white;
+             border-radius: 0.75rem;
+             padding: 1.5rem;
+             text-align: center;
+        }
+        .case-study-card {
+            background: #F1F5F9;
+            border-radius: 0.75rem;
+            padding: 2rem;
+            border-left: 5px solid #3D99A7;
+        }
+        .section-title {
+            font-size: 2.25rem;
+            font-weight: 900;
+            color: #0A2540;
+            text-align: center;
+            margin-bottom: 1rem;
+        }
+         .section-subtitle {
+            font-size: 1.125rem;
+            color: #495057;
+            text-align: center;
+            max-width: 800px;
+            margin: 0 auto 3rem auto;
+        }
+        .nav-item {
+            padding: 0.5rem 1rem;
+            color: rgba(255, 255, 255, 0.7);
+            transition: all 0.3s;
+            border-bottom: 2px solid transparent;
+        }
+        .nav-item:hover {
+            color: white;
+            border-bottom-color: #00A4E6;
+        }
+    </style>
+</head>
+<body class="bg-gray-100">
+
+    <nav class="bg-[#0A2540] sticky top-0 z-50 shadow-lg">
+        <div class="container mx-auto px-4">
+            <div class="flex items-center justify-between h-16">
+                <div class="flex items-center">
+                    <a href="#hero" class="text-white text-xl font-bold">SACLE</a>
+                </div>
+                <div class="hidden md:block">
+                    <div class="ml-10 flex items-baseline space-x-4">
+                        <a href="#opportunity" class="nav-item">시장 기회</a>
+                        <a href="#solution" class="nav-item">솔루션</a>
+                        <a href="#strategy" class="nav-item">성장 전략</a>
+                        <a href="#roadmap" class="nav-item">로드맵</a>
+                        <a href="#ask" class="nav-item">투자 제안</a>
+                        <a href="#team" class="nav-item">팀</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <header id="hero" class="hero text-white text-center py-20 md:py-32">
+        <div class="container mx-auto px-4">
+            <h1 class="text-4xl md:text-6xl font-black tracking-tight mb-4">Sacle: 대한민국 방역 산업의 게임 체인저</h1>
+            <p class="text-lg md:text-2xl font-light max-w-4xl mx-auto">기술(Tech)과 M&A로 파편화된 시장을 통합하여 압도적 리더십을 확보합니다.</p>
+        </div>
+    </header>
+
+    <main>
+        <section id="opportunity" class="py-20 bg-white">
+            <div class="container mx-auto px-4">
+                <h2 class="section-title">거대하지만 낙후된 시장, 기회는 바로 여기에 있습니다.</h2>
+                <p class="section-subtitle">
+                    국내 방역 시장은 약 2조 원 규모에 달하지만, 대부분의 업체가 기술력 없이 인력에 의존하는 파편화된 구조에 머물러 있습니다. 이는 혁신적인 통합자(Consolidator)에게 막대한 기회가 열려있음을 의미합니다.
+                </p>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
+                    <div class="text-center md:text-left">
+                        <h3 class="text-2xl font-bold text-[#0A2540] mb-4">문제점: 파편화와 비효율</h3>
+                        <div class="space-y-6">
+                            <div class="stat-card text-left">
+                                <h4 class="font-bold text-lg mb-1">극심한 파편화</h4>
+                                <p class="text-gray-600">약 2조 원 시장, 하지만 1위 세스코(17%)를 포함한 상위 5개사 점유율은 20% 남짓. 수천 개의 영세업체가 기술 없이 경쟁하며 성장이 정체되어 있습니다.</p>
+                            </div>
+                            <div class="stat-card text-left">
+                                <h4 class="font-bold text-lg mb-1">운영의 비효율</h4>
+                                <p class="text-gray-600">주먹구구식 스케줄 관리, 수기 계약서, 체계 없는 데이터 관리로 인해 높은 비용 구조와 낮은 서비스 품질이 고착화되었습니다.</p>
+                            </div>
+                            <div class="stat-card text-left">
+                                <h4 class="font-bold text-lg mb-1">낮은 고객 만족도</h4>
+                                <p class="text-gray-600">비전문적 서비스와 일관성 없는 품질로 인해 고객 이탈률이 높고, 산업 전반에 대한 신뢰도가 낮습니다.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div>
+                        <div class="chart-container">
+                            <canvas id="marketFragmentationChart"></canvas>
+                        </div>
+                        <p class="text-center text-gray-500 mt-2">국내 방역 시장 구조</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="solution" class="py-20 bg-gray-50">
+            <div class="container mx-auto px-4">
+                <h2 class="section-title">Sacle은 'Tech-enabled 플랫폼' 입니다.</h2>
+                <p class="section-subtitle">
+                    우리는 5년간의 유기적 성장을 통해 성공 방정식을 증명했습니다. 자체 개발한 IT 플랫폼과 데이터 기반 운영 노하우는 Sacle만의 압도적인 경쟁력입니다.
+                </p>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
+                    <div>
+                        <div class="chart-container">
+                            <canvas id="organicGrowthChart"></canvas>
+                        </div>
+                        <p class="text-center text-gray-500 mt-2">Sacle 연간 매출 추이 (단위: 억 원)</p>
+                    </div>
+                    <div class="text-center md:text-left">
+                        <h3 class="text-2xl font-bold text-[#0A2540] mb-4">우리의 솔루션과 검증된 실적</h3>
+                        <div class="space-y-6">
+                            <div class="stat-card text-left">
+                                <h4 class="font-bold text-lg mb-1">자체 개발 IT 플랫폼</h4>
+                                <p class="text-gray-600">CRM, FMS, 데이터 분석 대시보드를 통합하여 운영을 자동화하고, 인수 기업의 마진을 12개월 내 15% 이상 개선합니다.</p>
+                            </div>
+                            <div class="stat-card text-left">
+                                <h4 class="font-bold text-lg mb-1">데이터 기반 서비스</h4>
+                                <p class="text-gray-600">축적된 데이터를 통해 해충 발생 패턴을 예측하고, 고객에게 맞춤형 예방 솔루션을 제공하여 고객 만족도를 극대화합니다.</p>
+                            </div>
+                             <div class="stat-card text-left">
+                                <h4 class="font-bold text-lg mb-1">검증된 브랜드 파워</h4>
+                                <p class="text-gray-600">높은 재계약률과 VC 투자 유치 이력은 우리의 서비스 품질과 성장 가능성이 이미 시장에서 검증되었음을 의미합니다.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="mt-16">
+                    <h3 class="text-2xl font-bold text-center text-[#0A2540] mb-6">건강하고 확장 가능한 비즈니스 모델: 핵심 지표</h3>
+                    <div class="max-w-5xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-8">
+                        <div class="kpi-card">
+                            <p class="text-5xl font-black text-[#00A4E6]">90%</p>
+                            <p class="font-bold mt-2">정기 고객 매출 비중</p>
+                            <p class="text-sm text-gray-300 mt-1">(12개월 이상 계약)</p>
+                        </div>
+                        <div class="kpi-card">
+                             <p class="text-5xl font-black text-[#00A4E6]">&lt; 4%</p>
+                            <p class="font-bold mt-2">서비스 불만족 해지율</p>
+                            <p class="text-sm text-gray-300 mt-1">(업계 평균 15% 상회)</p>
+                        </div>
+                        <div class="kpi-card">
+                             <p class="text-5xl font-black text-[#00A4E6]">5 : 1</p>
+                            <p class="font-bold mt-2">LTV : CAC 비율</p>
+                            <p class="text-sm text-gray-300 mt-1">(고객 획득 비용 대비 5배의 가치 창출)</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="strategy" class="py-20 bg-white">
+            <div class="container mx-auto px-4">
+                <h2 class="section-title">핵심 성장 전략: Roll-up M&A</h2>
+                <p class="section-subtitle">
+                   Sacle의 플랫폼 위에 파편화된 시장의 조각들을 모아 압도적인 가치를 창출합니다. 이것이 투자 수익을 극대화할 우리의 핵심 엔진입니다.
+                </p>
+
+                <div class="mt-12">
+                    <h3 class="text-2xl font-bold text-center text-[#0A2540] mb-6">글로벌 성공 사례: 이미 검증된 고수익 모델</h3>
+                    <div class="max-w-6xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-8">
+                        <div class="case-study-card">
+                            <h4 class="text-xl font-bold text-[#0A2540] mb-2">Thompson Street Capital Partners (TSCP)</h4>
+                            <p class="font-semibold text-lg text-[#3D99A7] mb-4">플랫폼: PestCo</p>
+                            <p class="text-gray-700 mb-4">2021년, 방역 산업 베테랑과 손잡고 롤업 M&A만을 위한 플랫폼 'PestCo'를 설립. 이후 미국 전역의 우수 지역 업체를 공격적으로 인수하며 시장을 재편하고 있습니다.</p>
+                            <p class="font-bold text-gray-800">➡️ 시사점: Sacle은 한국 시장의 'PestCo'가 되어, 기술 플랫폼 기반으로 시장을 통합하는 최초의 성공 사례가 될 것입니다.</p>
+                        </div>
+                         <div class="case-study-card">
+                            <h4 class="text-xl font-bold text-[#0A2540] mb-2">Concentric Equity Partners (CEP)</h4>
+                            <p class="font-semibold text-lg text-[#3D99A7] mb-4">플랫폼: Aruza Pest Control</p>
+                            <p class="text-gray-700 mb-4">빠르게 성장하던 'Aruza'에 투자하여 롤업의 중심으로 삼고, 연속적인 M&A(Add-on)를 통해 성장을 폭발적으로 가속화시키는 전략을 성공적으로 구사하고 있습니다.</p>
+                            <p class="font-bold text-gray-800">➡️ 시사점: Sacle은 이미 유기적 성장이 검증된 'Aruza' 모델이며, 이제 M&A라는 터보 엔진을 장착할 최적의 시점입니다.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bg-gray-50 rounded-xl p-8 md:p-12 mt-16">
+                     <h3 class="text-2xl font-bold text-center text-[#0A2540] mb-6">1 + 1 = 3 을 만드는 가치 창출 공식: Multiple Arbitrage</h3>
+                     <div class="max-w-4xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-6 items-center text-center">
+                        <div class="p-6 bg-white rounded-lg shadow">
+                            <p class="text-sm text-gray-500">영세 업체 인수</p>
+                            <p class="text-3xl font-black text-[#AE2012] my-2">EBITDA x 3~5배</p>
+                            <p class="text-xs text-gray-500">저평가된 가치</p>
+                        </div>
+                        <div class="text-2xl font-bold text-gray-400">➡️</div>
+                        <div class="p-6 bg-white rounded-lg shadow border-2 border-[#00A4E6]">
+                            <p class="text-sm text-gray-500">Sacle 플랫폼 통합 후</p>
+                            <p class="text-3xl font-black text-[#00A4E6] my-2">EBITDA x 10~12배</p>
+                             <p class="text-xs text-gray-500">가치 극대화</p>
+                        </div>
+                     </div>
+                     <div class="max-w-3xl mx-auto mt-8 p-6 bg-white rounded-lg shadow">
+                        <label for="company-slider" class="block text-center font-bold text-gray-700">인수 기업 수: <span id="company-count" class="text-[#00A4E6] font-bold">10</span>개</label>
+                        <input id="company-slider" type="range" min="1" max="50" value="10" class="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer mt-2">
+                        <div class="mt-4 grid grid-cols-2 gap-4 text-center">
+                            <div>
+                                <p class="text-sm text-gray-500">총 인수 가치</p>
+                                <p id="acquisition-value" class="text-2xl font-bold"></p>
+                            </div>
+                            <div>
+                                <p class="text-sm text-gray-500">플랫폼 통합 후 예상 가치</p>
+                                <p id="platform-value" class="text-2xl font-bold"></p>
+                            </div>
+                        </div>
+                        <div class="mt-4 pt-4 border-t text-center">
+                            <p class="text-sm text-gray-500">예상 가치 상승분</p>
+                            <p id="value-creation" class="text-3xl font-black text-green-600"></p>
+                        </div>
+                     </div>
+                </div>
+            </div>
+        </section>
+        
+        <section id="roadmap" class="py-20 bg-gray-50">
+            <div class="container mx-auto px-4">
+                <h2 class="section-title">글로벌 리더로의 도약: 3단계 성장 로드맵</h2>
+                <p class="section-subtitle">
+                    우리는 국내 시장 제패를 넘어 아시아의 선두주자로, 그리고 최종적으로는 글로벌 Top-tier 기업과의 파트너십을 통해 성공적인 Exit을 목표로 하는 명확한 비전을 가지고 있습니다.
+                </p>
+                <div class="relative mt-12">
+                    <div class="absolute left-1/2 h-full w-1 bg-gray-300 hidden md:block"></div>
+                    <div class="space-y-12 md:space-y-0">
+                        <div class="md:grid md:grid-cols-2 md:items-center md:gap-8">
+                            <div class="flex md:justify-end">
+                                <div class="text-right max-w-sm mr-8">
+                                    <h4 class="text-xl font-bold text-[#0A2540]">Phase 1: 국내 시장 Roll-up</h4>
+                                    <p class="text-gray-600">1~3년 | 수도권 집중 후 전국 확장</p>
+                                    <p class="mt-2 text-sm">목표: 시장 점유율 1위, 매출 500억 달성</p>
+                                </div>
+                            </div>
+                             <div class="w-10 h-10 bg-[#00A4E6] rounded-full flex items-center justify-center text-white font-bold text-lg mx-auto my-4 md:my-0">1</div>
+                        </div>
+                        <div class="md:grid md:grid-cols-2 md:items-center md:gap-8">
+                            <div class="md:col-start-2">
+                                <div class="max-w-sm ml-8">
+                                     <h4 class="text-xl font-bold text-[#0A2540]">Phase 2: 동남아 시장 진출</h4>
+                                     <p class="text-gray-600">3~5년 | 베트남, 태국 등 거점 확보</p>
+                                     <p class="mt-2 text-sm">목표: 검증된 모델 이식, 아시아 선두주자로 발돋움</p>
+                                </div>
+                            </div>
+                            <div class="w-10 h-10 bg-[#00A4E6] rounded-full flex items-center justify-center text-white font-bold text-lg mx-auto my-4 md:my-0 md:col-start-1 md:row-start-1 md:ml-auto md:mr-[-20px]">2</div>
+                        </div>
+                         <div class="md:grid md:grid-cols-2 md:items-center md:gap-8">
+                            <div class="flex md:justify-end">
+                                <div class="text-right max-w-sm mr-8">
+                                     <h4 class="text-xl font-bold text-[#0A2540]">Phase 3: 성공적 Exit</h4>
+                                     <p class="text-gray-600">5~7년 | 글로벌 Top-tier 기업에 매각/합병</p>
+                                     <p class="mt-2 text-sm">목표: 투자 수익 극대화</p>
+                                </div>
+                            </div>
+                            <div class="w-10 h-10 bg-[#00A4E6] rounded-full flex items-center justify-center text-white font-bold text-lg mx-auto my-4 md:my-0">3</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="ask" class="py-20 bg-white">
+            <div class="container mx-auto px-4">
+                 <h2 class="section-title">투자 제안</h2>
+                 <p class="section-subtitle">
+                    이 위대한 여정을 함께할 전략적 파트너를 찾습니다. 귀하의 투자는 대한민국 방역 산업의 역사를 바꾸는 첫걸음이 될 것입니다.
+                </p>
+                 <div class="max-w-5xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
+                    <div class="stat-card p-8 text-center">
+                        <h3 class="text-xl font-bold text-gray-700 mb-2">투자 요청 금액</h3>
+                        <p class="text-5xl font-black text-[#0A2540] mb-6">100억 원</p>
+                        <h3 class="text-xl font-bold text-gray-700 mb-4">자금 사용 계획</h3>
+                        <div class="chart-container h-64">
+                             <canvas id="useOfFundsChart"></canvas>
+                        </div>
+                    </div>
+                    <div class="stat-card p-8">
+                         <h3 class="text-xl font-bold text-gray-700 mb-4 text-center">향후 5년간 재무 전망</h3>
+                         <div class="chart-container h-80">
+                            <canvas id="financialProjectionsChart"></canvas>
+                        </div>
+                         <p class="text-center text-gray-500 mt-2 text-sm">M&A 효과를 반영한 예상 매출 및 EBITDA (단위: 억 원)</p>
+                         <p class="text-center text-gray-500 mt-1 text-xs">* Year 1은 본 투자금으로 달성, Year 2 이후는 지속적인 M&A 펀딩을 통해 달성하는 목표입니다.</p>
+                    </div>
+                 </div>
+            </div>
+        </section>
+        
+        <section id="team" class="py-20 bg-gray-50">
+            <div class="container mx-auto px-4">
+                 <h2 class="section-title">우리는 이 비전을 현실로 만들 팀입니다.</h2>
+                 <p class="section-subtitle">
+                    전략, 기술, 운영, 금융 각 분야의 최고 전문가들이 모여 Sacle의 성공을 이끌고 있습니다.
+                </p>
+                <div class="max-w-4xl mx-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+                    <div class="text-center">
+                        <div class="w-32 h-32 rounded-full bg-gray-300 mx-auto mb-4"></div>
+                        <h4 class="font-bold text-lg">홍상진 (Sangjin Hong)</h4>
+                        <p class="text-[#00A4E6] font-bold">CEO & Founder</p>
+                        <p class="text-gray-600 text-sm mt-1">전) 모니터그룹 컨설턴트<br>전) 마이크로소프트 PM</p>
+                    </div>
+                     <div class="text-center">
+                        <div class="w-32 h-32 rounded-full bg-gray-300 mx-auto mb-4"></div>
+                        <h4 class="font-bold text-lg">홍정섭 (John Hong)</h4>
+                        <p class="text-[#00A4E6] font-bold">COO</p>
+                        <p class="text-gray-600 text-sm mt-1">전) 현대 제네시스 전략팀장<br>전) 모니터그룹 컨설턴트</p>
+                    </div>
+                     <div class="text-center">
+                        <div class="w-32 h-32 rounded-full bg-gray-300 mx-auto mb-4"></div>
+                        <h4 class="font-bold text-lg">김강모 (Kangmo Kim)</h4>
+                        <p class="text-[#00A4E6] font-bold">CTO</p>
+                        <p class="text-gray-600 text-sm mt-1">전) Korbit CTO<br>전) 스케일체인 Founder</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="bg-[#0A2540] text-white py-12">
+        <div class="container mx-auto px-4 text-center">
+            <h3 class="text-2xl font-bold">Sacle과 함께 방역 산업의 미래를 만들어 가시죠.</h3>
+            <p class="mt-4">연락처: 010-8858-6384 | Email: shong@sacle.co.kr</p>
+            <p class="text-sm text-gray-400 mt-8">&copy; 2025 Sacle Inc. All Rights Reserved.</p>
+        </div>
+    </footer>
+
+
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+    const defaultChartOptions = {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+            legend: {
+                display: false
+            },
+            tooltip: {
+                backgroundColor: 'rgba(10, 37, 64, 0.9)',
+                titleFont: { size: 14, weight: 'bold' },
+                bodyFont: { size: 12 },
+                padding: 12,
+                cornerRadius: 6,
+                boxPadding: 4,
+                 callbacks: {
+                    label: function(context) {
+                        let label = context.dataset.label || '';
+                        if (label) {
+                            label += ': ';
+                        }
+                        if (context.parsed.y !== null) {
+                            label += new Intl.NumberFormat('ko-KR').format(context.parsed.y) + '억원';
+                        }
+                        return label;
+                    }
+                }
+            }
+        },
+        scales: {
+            x: {
+                ticks: { color: '#495057', font: { size: 12 } },
+                grid: { display: false }
+            },
+            y: {
+                ticks: { 
+                    color: '#495057', 
+                    font: { size: 12 },
+                    callback: function(value) {
+                        return value + '억';
+                    }
+                },
+                grid: { color: '#E9ECEF', drawBorder: false }
+            }
+        }
+    };
+
+    new Chart(document.getElementById('marketFragmentationChart'), {
+        type: 'doughnut',
+        data: {
+            labels: ['상위 5개사 (세스코 포함)', '기타 영세업체'],
+            datasets: [{
+                data: [20, 80],
+                backgroundColor: ['#00A4E6', '#CED4DA'],
+                borderColor: 'white',
+                borderWidth: 4,
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                legend: {
+                    position: 'bottom',
+                    labels: {
+                        color: '#212529',
+                        padding: 20,
+                        font: { size: 14 }
+                    }
+                },
+                tooltip: {
+                     ...defaultChartOptions.plugins.tooltip,
+                     callbacks: {
+                        label: function(context) {
+                            let label = context.label || '';
+                            if (label) {
+                                label += ': ';
+                            }
+                            if (context.parsed !== null) {
+                                label += context.parsed + '%';
+                            }
+                            return label;
+                        }
+                     }
+                }
+            }
+        }
+    });
+
+    new Chart(document.getElementById('organicGrowthChart'), {
+        type: 'line',
+        data: {
+            labels: ['2021', '2022', '2023', '2024', '2025 (E)'],
+            datasets: [{
+                label: '매출',
+                data: [7.5, 9.5, 9.1, 12.8, 16.0],
+                borderColor: '#00A4E6',
+                backgroundColor: 'rgba(0, 164, 230, 0.1)',
+                fill: true,
+                tension: 0.4,
+                pointBackgroundColor: '#00A4E6',
+                pointRadius: 5,
+            }]
+        },
+        options: defaultChartOptions
+    });
+
+    new Chart(document.getElementById('useOfFundsChart'), {
+        type: 'pie',
+        data: {
+            labels: ['M&A 인수 자금', 'IT 플랫폼 고도화', 'PMI 및 운영 자금'],
+            datasets: [{
+                data: [70, 15, 15],
+                backgroundColor: ['#0A2540', '#00A4E6', '#3D99A7'],
+                borderColor: 'white',
+                borderWidth: 4,
+            }]
+        },
+         options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                legend: {
+                    position: 'bottom',
+                    labels: {
+                        color: '#212529',
+                        padding: 15,
+                        font: { size: 12 }
+                    }
+                },
+                 tooltip: {
+                     ...defaultChartOptions.plugins.tooltip,
+                     callbacks: {
+                        label: function(context) {
+                            let label = context.label || '';
+                            if (label) {
+                                label += ': ';
+                            }
+                            if (context.parsed !== null) {
+                                label += context.parsed + '%';
+                            }
+                            return label;
+                        }
+                     }
+                 }
+            }
+        }
+    });
+
+    new Chart(document.getElementById('financialProjectionsChart'), {
+        type: 'bar',
+        data: {
+            labels: ['Year 1', 'Year 2', 'Year 3', 'Year 4', 'Year 5'],
+            datasets: [
+                {
+                    label: '매출',
+                    data: [100, 180, 320, 500, 750],
+                    backgroundColor: '#0A2540',
+                    borderRadius: 4,
+                },
+                {
+                    label: 'EBITDA',
+                    data: [15, 31, 61, 100, 165],
+                    backgroundColor: '#00A4E6',
+                    borderRadius: 4,
+                }
+            ]
+        },
+        options: { ...defaultChartOptions,
+            plugins: { ...defaultChartOptions.plugins, 
+                legend: {
+                    display: true,
+                    position: 'bottom',
+                    labels: { color: '#212529', font: { size: 12 } }
+                } 
+            }
+        }
+    });
+
+    const slider = document.getElementById('company-slider');
+    const countEl = document.getElementById('company-count');
+    const acquisitionValueEl = document.getElementById('acquisition-value');
+    const platformValueEl = document.getElementById('platform-value');
+    const valueCreationEl = document.getElementById('value-creation');
+
+    const formatCurrency = (value) => `${(value).toLocaleString('ko-KR')}억 원`;
+
+    const calculateValues = () => {
+        const companyCount = parseInt(slider.value);
+        const avgEbitda = 2; 
+        const acquisitionMultiple = 4;
+        const platformMultiple = 11;
+        const efficiencyGain = 1.15;
+
+        const totalAcquisitionEbitda = companyCount * avgEbitda;
+        const acquisitionValue = totalAcquisitionEbitda * acquisitionMultiple;
+        
+        const platformEbitda = totalAcquisitionEbitda * efficiencyGain;
+        const platformValue = platformEbitda * platformMultiple;
+        
+        const valueCreation = platformValue - acquisitionValue;
+
+        countEl.textContent = companyCount;
+        acquisitionValueEl.textContent = formatCurrency(Math.round(acquisitionValue));
+        platformValueEl.textContent = formatCurrency(Math.round(platformValue));
+        valueCreationEl.textContent = formatCurrency(Math.round(valueCreation));
+    };
+    
+    slider.addEventListener('input', calculateValues);
+    calculateValues();
+});
+</script>
+
+</body>
+</html>
+
